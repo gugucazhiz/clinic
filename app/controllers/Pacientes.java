@@ -25,7 +25,7 @@ public class Pacientes extends Controller {
             renderTemplate("Pacientes/form.html", paciente);
         }
     }
-
+    
     public static void salvar(Paciente paciente) {
             paciente.save();
             detalhar(paciente);
@@ -38,5 +38,9 @@ public class Pacientes extends Controller {
 
     public static void login() {
         render();
+    }
+    public static void lista_all(){
+        List<Paciente> pacientes = Paciente.findAll();
+        render(pacientes);
     }
 }
