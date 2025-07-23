@@ -15,8 +15,8 @@ public class Paciente extends Model{
 	public String nome;
 	public Date dataNascimento;
 	public String convenio;
-	public String CPF;
 	public String telefone;
+	public String cpf;
 	
 	@Enumerated(EnumType.STRING)
 	public Status status;
@@ -24,4 +24,5 @@ public class Paciente extends Model{
 	public Paciente() {
 		this.status = Status.ATIVO;
 	}
+	public Consulta consulta;
 }

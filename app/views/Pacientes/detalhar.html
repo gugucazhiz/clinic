@@ -1,18 +1,20 @@
 #{extends 'main.html' /}
 #{set title:'Perfil do paciente' /}
 
-<input type="hidden" name="paciente.id" value="${p?.id}" />
+<input type="hidden" name="pacienteEncontrado?.id" value="${pacienteEncontrado?.id}" />
 <body class=body>
 <container>
 <div class="cont-det">
 
-<p class="listagem">${paciente.nome}</p>
+<p class="listagem">NOME: ${paciente.nome}</p>
 <p class="listagem">${paciente.dataNascimento}</p>
 <p class="listagem">${paciente.convenio}</p>
 
-<hr>
-<br>
+<hr><br>
+
 <a class="bot-novo" href="@{Pacientes.form}">Cadastrar novo</a>
+<br>
+<a class="bot-novo" href="\">Voltar</a>
 
 </div>
 

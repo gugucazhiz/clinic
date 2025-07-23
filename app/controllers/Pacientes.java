@@ -13,7 +13,7 @@ public class Pacientes extends Controller {
 	}
 	
     public static void salvar(Paciente paciente) {
-    	if(paciente.nome == null || paciente.telefone == null || paciente.dataNascimento == null || paciente.CPF == null || paciente.convenio == null) {
+    	if(isEmpty(paciente.nome) || isEmpty(paciente.telefone) || (paciente.dataNascimento == null) || isEmpty(paciente.cpf) || isEmpty(paciente.convenio)) {
     		flash.error("Todos os campos devem ser preenchidos");
     		form(paciente);
     	} else {
@@ -22,7 +22,6 @@ public class Pacientes extends Controller {
     	}
             
     }
-
     public static void detalhar(Paciente paciente) {
         render(paciente);
     }
@@ -33,7 +32,12 @@ public class Pacientes extends Controller {
     public static void lista_all(){
         List<Paciente> pacientes = Paciente.findAll();
         render(pacientes);
-    }   
+    }
+
+    private static boolean isEmpty(String value){
+        return value == null || value.trim().isEmpty();
+    }
+    
     public static void verificacao(Paciente paciente) {
         List<Paciente> pacientes = Paciente.findAll();
 
@@ -41,8 +45,16 @@ public class Pacientes extends Controller {
             .anyMatch(p -> p.telefone != null && p.telefone.equals(paciente.telefone));
 
         if (telefoneExiste) {
-            renderTemplate("Pacientes/detalhar.html", paciente);
-        } else {
+            Paciente pacienteEncontrado = Paciente.find("SELECT p FROM Paciente p WHERE p.telefone = :telefone")
+            .bind("telefone", paciente.telefone)
+            .first();
+            if(pacienteEncontrado == null){
+                flash.error("Paciente Não encontrado!");
+            }
+            else{
+                detalhar(pacienteEncontrado);
+            }
+        } else{
             renderTemplate("Pacientes/form.html", paciente);
         }
     }
