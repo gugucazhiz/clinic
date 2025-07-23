@@ -2,17 +2,38 @@ package controllers;
 
 import java.util.List;
 import models.Status;
-import models.Consulta;
 import models.Paciente;
 import play.mvc.Controller;
 
 public class Pacientes extends Controller {
 
-    public static void form() {
-        List<Consulta> consultas = Consulta.findAll();
-        render(consultas);
+	
+	public static void form(Paciente paciente) {
+		render();
+	}
+	
+    public static void salvar(Paciente paciente) {
+    	if(paciente.nome == null || paciente.telefone == null || paciente.dataNascimento == null || paciente.CPF == null || paciente.convenio == null) {
+    		flash.error("Todos os campos devem ser preenchidos");
+    		form(paciente);
+    	} else {
+    		paciente.save();
+            detalhar(paciente); 
+    	}
+            
     }
 
+    public static void detalhar(Paciente paciente) {
+        render(paciente);
+    }
+
+    public static void login() {
+        render();
+    }
+    public static void lista_all(){
+        List<Paciente> pacientes = Paciente.findAll();
+        render(pacientes);
+    }   
     public static void verificacao(Paciente paciente) {
         List<Paciente> pacientes = Paciente.findAll();
 
@@ -26,21 +47,4 @@ public class Pacientes extends Controller {
         }
     }
     
-    public static void salvar(Paciente paciente) {
-            paciente.save();
-            detalhar(paciente);
-     
-    }
-
-    public static void detalhar(Paciente paciente) {
-        render(paciente);
-    }
-
-    public static void login() {
-        render();
-    }
-    public static void lista_all(){
-        List<Paciente> pacientes = Paciente.findAll();
-        render(pacientes);
-    }
 }
